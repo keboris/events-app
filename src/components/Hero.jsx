@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <section className="relative w-full h-[600px] overflow-hidden bg-[#1a0a2e] flex items-center justify-center">
+    <section className="relative w-full h-[70vh] overflow-hidden bg-[#1a0a2e] flex items-center justify-center">
       {/* Hero Background Image */}
       <img
         src="/public/hero.jpg"
