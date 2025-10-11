@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router";
+
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <section className="relative w-full h-[70vh] overflow-hidden bg-[#1a0a2e] flex items-center justify-center">
       {/* Hero Background Image */}
@@ -10,7 +13,10 @@ const Hero = () => {
 
       {/* Content over the image */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <button className="btn btn-warning text-black font-semibold text-lg px-8 py-3 shadow-lg hover:shadow-xl transition-all">
+        <button
+          onClick={() => navigate("/events")}
+          className="btn btn-warning text-black font-semibold text-lg px-8 py-3 shadow-lg hover:shadow-xl transition-all"
+        >
           Explore Events
         </button>
       </div>
