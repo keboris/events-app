@@ -3,7 +3,7 @@ const Hero = () => {
     <section className="relative w-full h-[70vh] overflow-hidden bg-[#1a0a2e] flex items-center justify-center">
       {/* Hero Background Image */}
       <img
-        src="/public/hero.jpg"
+        src="/hero.jpg"
         alt="Hero"
         className="w-full h-full object-contain"
       />
