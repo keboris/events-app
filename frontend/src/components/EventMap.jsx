@@ -1,6 +1,15 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import { useEffect, useState } from "react";
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: "/leaflet-images/marker-icon-2x.png",
+  iconUrl: "/leaflet-images/marker-icon.png",
+  shadowUrl: "/leaflet-images/marker-shadow.png",
+});
 
 const ChangeView = ({ center, zoom }) => {
   const map = useMap();
