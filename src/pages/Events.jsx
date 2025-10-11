@@ -1,17 +1,16 @@
 import { useOutletContext } from "react-router";
 import EventCard from "../components/EventCard";
-import Hero from "../components/Hero";
 
-const Home = () => {
+const Events = () => {
   const { events } = useOutletContext();
+
   return (
     <>
-      <title>Events API</title>
-      <Hero />
+      <title>Upcoming Events | Event App</title>
 
       <EventCard events={events} />
     </>
   );
 };
 
-export default Home;
+export default Events;
