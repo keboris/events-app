@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 
-
 const SignIn = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -61,7 +60,6 @@ const SignIn = () => {
       // Simulate API call - Replace with your actual API endpoint
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
- 
       const mockToken = "mock-jwt-token-" + Date.now();
       const mockUser = {
         id: 1,
@@ -251,12 +249,11 @@ const SignIn = () => {
               </button>
             </form>
 
-            
             {/* Sign Up Link */}
             <div className="text-center mt-4">
               <p className="text-sm text-base-content/60">
                 Don't have an account?{" "}
-                <Link to="/signup" className="link link-primary font-medium">
+                <Link to="/register" className="link link-primary font-medium">
                   Sign up
                 </Link>
               </p>
