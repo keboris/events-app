@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 
 const MainLayout = () => {
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
