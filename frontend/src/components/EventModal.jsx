@@ -144,13 +144,13 @@ const EventModal = ({ events, dialogRef, selectedEvent, closeModal }) => {
                       </div>
                     </form>
                   </div>
-                  <div className="hidden md:flex flex-col gap-2">
+                  <div className="hidden md:flex flex-col gap-2 carousel carousel-vertical h-108">
                     {eventsList &&
                       eventsList.map((ev) => (
                         <div
                           key={ev.id}
                           onClick={() => showEvent(ev)}
-                          className={`card w-full shadow-sm cursor-pointer overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform ${
+                          className={`card carousel-item w-full shadow-sm cursor-pointer overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform ${
                             ev.id === currentEvent.id
                               ? "bg-primary text-primary-content"
                               : "bg-base-100"

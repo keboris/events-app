@@ -7,6 +7,7 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import CreateEvent from "./pages/CreateEvent";
 import Events from "./pages/Events";
+import UserEvents from "./users/UserEvents";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/my-events" element={<UserEvents />} />
           <Route path="/create-event" element={<CreateEvent />} />
           <Route path="/events/:id" element={<EventDetails />} />
         </Route>

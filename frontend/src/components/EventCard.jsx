@@ -31,40 +31,35 @@ const EventCard = ({ events }) => {
 
   return (
     <>
-      <section className="max-w-6xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
-          🎉 Upcoming Events
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {sortedEvents &&
-            sortedEvents.map((event) => (
-              <div
-                key={event.id}
-                onClick={() => openModal(event)}
-                className="bg-white cursor-pointer rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform"
-              >
-                <img
-                  src={event.imageUrl}
-                  alt={event.title}
-                  className="h-48 w-full object-cover cursor-pointer"
-                />
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                  <p className="text-gray-600 mb-2">
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-gray-500">{event.location}</p>
-                  <button
-                    className="mt-4 btn btn-outline btn-primary w-full"
-                    onClick={() => openModal(event)}
-                  >
-                    See more...
-                  </button>
-                </div>
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {sortedEvents &&
+          sortedEvents.map((event) => (
+            <div
+              key={event.id}
+              onClick={() => openModal(event)}
+              className="bg-white cursor-pointer rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform"
+            >
+              <img
+                src={event.imageUrl}
+                alt={event.title}
+                className="h-48 w-full object-cover cursor-pointer"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                <p className="text-gray-600 mb-2">
+                  {new Date(event.date).toLocaleDateString()}
+                </p>
+                <p className="text-sm text-gray-500">{event.location}</p>
+                <button
+                  className="mt-4 btn btn-outline btn-primary w-full"
+                  onClick={() => openModal(event)}
+                >
+                  See more...
+                </button>
               </div>
-            ))}
-        </div>
-      </section>
+            </div>
+          ))}
+      </div>
 
       <EventModal
         events={events}
