@@ -47,7 +47,7 @@ const CreateEvent = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error creating event");
+        throw new Error(data.message);
       }
       setMessage("✅ Event successfully created!");
       setFormData({
