@@ -16,7 +16,7 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // backend API url- change this if backend runs on different port
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://backend-events-api.onrender.com";
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
