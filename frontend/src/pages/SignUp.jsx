@@ -15,9 +15,8 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // backend API url
-  const API_BASE_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+  // backend API url- change this if backend runs on different port
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -83,7 +82,7 @@ const SignUp = () => {
 
     try {
       // create new user account
-      const registerResponse = await fetch(`${API_BASE_URL}/users`, {
+      const registerResponse = await fetch(`${API_BASE_URL}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -41,22 +41,22 @@ const Header = () => {
 
   return (
     <div className="navbar bg-base-100 shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 sm:px-4">
         <div className="flex justify-between items-center w-full">
           {/* Left side - Logo and Home */}
-          <div className="flex items-center gap-2">
-            <Link to="/" className="btn btn-ghost text-xl font-bold">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link to="/" className="btn btn-ghost text-base sm:text-xl font-bold px-2 sm:px-4">
               <img
                 src="/event-logo.png"
                 alt="Events App Logo"
-                className="h-8 w-8"
+                className="h-6 w-6 sm:h-8 sm:w-8"
               />
-              Events App
+              <span className="hidden sm:inline">Events App</span>
             </Link>
-            <Link to="/" className="btn btn-ghost">
+            <Link to="/" className="btn btn-ghost btn-sm sm:btn-md px-2 sm:px-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-4 w-4 sm:h-5 sm:w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -68,16 +68,16 @@ const Header = () => {
                   d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                 />
               </svg>
-              Home
+              <span className="hidden sm:inline">Home</span>
             </Link>
-            <Link to="/events" className="btn btn-ghost">
+            <Link to="/events" className="btn btn-ghost btn-sm sm:btn-md px-2 sm:px-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="size-6"
+                className="h-4 w-4 sm:h-5 sm:w-5"
               >
                 <path
                   stroke-linecap="round"
@@ -85,12 +85,12 @@ const Header = () => {
                   d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
                 />
               </svg>
-              Events
+              <span className="hidden sm:inline">Events</span>
             </Link>
           </div>
 
           {/* Right side - Search and buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Search Bar */}
             {/*<form onSubmit={handleSearch} className="form-control">
               <div className="input-group">
@@ -104,7 +104,7 @@ const Header = () => {
                 <button type="submit" className="btn btn-square btn-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -122,10 +122,10 @@ const Header = () => {
 
             {isAuthenticated ? (
               <>
-                <Link to="/create-event" className="btn btn-primary btn-sm">
+                <Link to="/create-event" className="btn btn-primary btn-sm px-2 sm:px-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -137,12 +137,29 @@ const Header = () => {
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
-                  Create Event
+                  <span className="hidden md:inline">Create Event</span>
                 </Link>
-                <button onClick={handleLogout} className="btn btn-ghost btn-sm">
+                <Link to="/dashboard" className="btn btn-ghost btn-sm px-2 sm:px-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                    />
+                  </svg>
+                  <span className="hidden md:inline">Dashboard</span>
+                </Link>
+                <button onClick={handleLogout} className="btn btn-ghost btn-sm px-2 sm:px-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -154,15 +171,15 @@ const Header = () => {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  Logout
+                  <span className="hidden md:inline">Logout</span>
                 </button>
               </>
             ) : (
               <>
-                <Link to="/signin" className="btn btn-primary btn-sm">
+                <Link to="/signin" className="btn btn-primary btn-sm px-2 sm:px-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -174,9 +191,9 @@ const Header = () => {
                       d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                     />
                   </svg>
-                  Sign In
+                  <span className="hidden sm:inline">Sign In</span>
                 </Link>
-                <Link to="/register" className="btn btn-secondary btn-sm">
+                <Link to="/register" className="btn btn-secondary btn-sm px-2 sm:px-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -191,13 +208,13 @@ const Header = () => {
                       d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
                     />
                   </svg>
-                  Register
+                  <span className="hidden sm:inline">Register</span>
                 </Link>
               </>
             )}
 
             {/* Theme Switcher */}
-            <label className="swap swap-rotate btn btn-ghost btn-circle btn-sm">
+            <label className="swap swap-rotate btn btn-ghost btn-circle btn-sm flex-shrink-0">
               <input
                 type="checkbox"
                 checked={theme === "dark"}
