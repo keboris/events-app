@@ -1,7 +1,7 @@
-import { Link } from "react-router";
-import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-const navigate = useNavigate();
+import { useState, useEffect } from "react";
+
+
 
 const Header = () => {
   const [theme, setTheme] = useState("light");
@@ -21,13 +21,13 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    // Clear authentication token and user data
-    localStorage.removeItem("token");
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-    setIsAuthenticated(false);
-    navigate("/signin");
-  };
+  // Clear authentication token and user data
+  localStorage.removeItem("token");
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("user");
+  setIsAuthenticated(false);
+  navigate("/signin");
+};
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
