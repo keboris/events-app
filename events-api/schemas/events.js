@@ -8,6 +8,7 @@ export const eventSchema = {
     location: Joi.string().max(255).required(),
     latitude: Joi.number().precision(8).optional().allow(null),
     longitude: Joi.number().precision(8).optional().allow(null),
+    imageUrl: Joi.string().uri().min(10).max(1000).required(),
     organizerId: Joi.number().integer().required(),
   }),
   PUT: Joi.object({
@@ -17,6 +18,7 @@ export const eventSchema = {
     location: Joi.string().max(255).optional(),
     latitude: Joi.number().precision(8).optional().allow(null),
     longitude: Joi.number().precision(8).optional().allow(null),
+    imageUrl: Joi.string().uri().min(10).max(1000).optional(),
     organizerId: Joi.number().integer().optional(),
   }),
 };
