@@ -41,16 +41,16 @@ const CreateEvent = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          title: formData.title,
+        body: JSON.stringify(formData),
+      });
+
+      /*title: formData.title,
           description: formData.description,
           date: formData.date,
           location: formData.location,
           latitude: formData.latitude,
           longitude: formData.longitude,
-          imageUrl: formData.imageUrl,
-        }),
-      });
+          imageUrl: formData.imageUrl,*/
 
       const data = await response.json();
 
