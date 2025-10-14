@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { AUTH_ENDPOINT, USERS_ENDPOINT } from "../config/api";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,9 +15,6 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  // backend API url- change this if backend runs on different port
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://backend-events-api.onrender.com";
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -82,12 +80,13 @@ const SignUp = () => {
 
     try {
       // create new user account
-      const registerResponse = await fetch(`${API_BASE_URL}/api/users`, {
+      const registerResponse = await fetch(`${USERS_ENDPOINT}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          name: formData.fullName,
           email: formData.email,
           password: formData.password,
         }),
@@ -109,12 +108,13 @@ const SignUp = () => {
       }
 
       // login automatically after registration
-      const loginResponse = await fetch(`${API_BASE_URL}/auth/login`, {
+      const loginResponse = await fetch(`${AUTH_ENDPOINT}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          name: formData.fullName,
           email: formData.email,
           password: formData.password,
         }),

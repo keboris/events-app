@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { AUTH_ENDPOINT } from "../config/api";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -10,9 +11,6 @@ const SignIn = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // API URL - change this if backend runs on different port
-  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://backend-events-api.onrender.com";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +59,7 @@ const SignIn = () => {
 
     try {
       // send login request to backend
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      const response = await fetch(`${AUTH_ENDPOINT}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,10 +94,7 @@ const SignIn = () => {
       alert("Sign in successful!");
 
       // go to home page
-      navigate("/");
-
-      // reload page to update header
-      window.location.reload();
+      navigate("/", { replace: true });
     } catch (error) {
       console.error("Login error:", error);
 
