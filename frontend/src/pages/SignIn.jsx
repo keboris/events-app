@@ -12,8 +12,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   // API URL - change this if backend runs on different port
-  const API_BASE_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +61,7 @@ const SignIn = () => {
 
     try {
       // send login request to backend
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
