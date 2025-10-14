@@ -15,13 +15,17 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // backend API url
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    // Clear error when user starts typing
+    // remove error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -33,21 +37,21 @@ const SignUp = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Full name validation
+    // validate full name
     if (!formData.fullName) {
       newErrors.fullName = "Full name is required";
     } else if (formData.fullName.length < 3) {
       newErrors.fullName = "Full name must be at least 3 characters";
     }
 
-    // Email validation
+    // validate email
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
     }
 
-    // Password validation
+    // validate password
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
@@ -57,14 +61,12 @@ const SignUp = () => {
         "Password must contain uppercase, lowercase, and number";
     }
 
-    // Confirm password validation
+    // check if passwords match
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-
-    
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -80,32 +82,79 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API call 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // create new user account
+      const registerResponse = await fetch(`${API_BASE_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-      const mockToken = "mock-jwt-token-" + Date.now();
-      const mockUser = {
-        id: Date.now(),
-        email: formData.email,
-        name: formData.fullName,
-      };
+      // check if response is JSON
+      const contentType = registerResponse.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error(
+          "Backend server is not responding correctly. Please make sure the backend is running on " +
+            API_BASE_URL
+        );
+      }
 
-      // Store authentication data
-      localStorage.setItem("authToken", mockToken);
-      localStorage.setItem("user", JSON.stringify(mockUser));
+      const registerData = await registerResponse.json();
 
-      // Show success message
+      if (!registerResponse.ok) {
+        throw new Error(registerData.message || "Sign up failed");
+      }
+
+      // login automatically after registration
+      const loginResponse = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const loginData = await loginResponse.json();
+
+      if (!loginResponse.ok) {
+        throw new Error(loginData.message || "Auto login failed");
+      }
+
+      // save token and user data
+      localStorage.setItem("authToken", loginData.token);
+      localStorage.setItem("user", JSON.stringify(loginData.user));
+
       alert("Account created successfully!");
 
-      // Redirect to home page
+      // redirect to home
       navigate("/");
 
-      // Reload to update header authentication state
+      // refresh page to update header
       window.location.reload();
     } catch (error) {
+      console.error("Signup error:", error);
+
+      // better error message
+      let errorMessage = "Sign up failed. ";
+      if (error.message.includes("Backend server")) {
+        errorMessage = error.message;
+      } else if (error.message.includes("Failed to fetch")) {
+        errorMessage =
+          "Cannot connect to server. Make sure backend is running on " +
+          API_BASE_URL;
+      } else {
+        errorMessage += error.message || "Please try again.";
+      }
+
       setErrors({
-        submit:
-          "Sign up failed. This email may already be registered. Please try again.",
+        submit: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -123,8 +172,7 @@ const SignUp = () => {
     if (/\d/.test(password)) strength++;
     if (/[^a-zA-Z0-9]/.test(password)) strength++;
 
-    if (strength <= 2)
-      return { strength: 33, label: "Weak", color: "error" };
+    if (strength <= 2) return { strength: 33, label: "Weak", color: "error" };
     if (strength <= 3)
       return { strength: 66, label: "Medium", color: "warning" };
     return { strength: 100, label: "Strong", color: "success" };
@@ -363,7 +411,6 @@ const SignUp = () => {
                 )}
               </div>
 
-              
               {/* Submit Error */}
               {errors.submit && (
                 <div className="alert alert-error">
@@ -380,7 +427,7 @@ const SignUp = () => {
                       d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>{errors.submit}</span>
+                  <span className="text-sm">{errors.submit}</span>
                 </div>
               )}
 
@@ -403,8 +450,6 @@ const SignUp = () => {
               </button>
             </form>
 
-            
-
             {/* Sign In Link */}
             <div className="text-center mt-4">
               <p className="text-sm text-base-content/60">
@@ -422,4 +467,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
