@@ -26,7 +26,7 @@ const AddressInput = ({ onSelect }) => {
       );
       const data = await res.json();
       setSuggestions(data);
-    }, 2000);
+    }, 1000);
   };
 
   const handleSelect = (place) => {
