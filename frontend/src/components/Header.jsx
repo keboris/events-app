@@ -1,7 +1,8 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,11 +20,12 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    // Clear authentication token
+    // Clear authentication token and user data
     localStorage.removeItem("token");
     localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
-    window.location.href = "/signin";
+    navigate("/signin");
   };
 
   const toggleTheme = () => {
@@ -45,7 +47,10 @@ const Header = () => {
         <div className="flex justify-between items-center w-full">
           {/* Left side - Logo and Home */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <Link to="/" className="btn btn-ghost text-base sm:text-xl font-bold px-2 sm:px-4">
+            <Link
+              to="/"
+              className="btn btn-ghost text-base sm:text-xl font-bold px-2 sm:px-4"
+            >
               <img
                 src="/event-logo.png"
                 alt="Events App Logo"
@@ -53,7 +58,10 @@ const Header = () => {
               />
               <span className="hidden sm:inline">Events App</span>
             </Link>
-            <Link to="/" className="btn btn-ghost btn-sm sm:btn-md px-2 sm:px-4">
+            <Link
+              to="/"
+              className="btn btn-ghost btn-sm sm:btn-md px-2 sm:px-4"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4 sm:h-5 sm:w-5"
@@ -70,7 +78,10 @@ const Header = () => {
               </svg>
               <span className="hidden sm:inline">Home</span>
             </Link>
-            <Link to="/events" className="btn btn-ghost btn-sm sm:btn-md px-2 sm:px-4">
+            <Link
+              to="/events"
+              className="btn btn-ghost btn-sm sm:btn-md px-2 sm:px-4"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -122,7 +133,10 @@ const Header = () => {
 
             {isAuthenticated ? (
               <>
-                <Link to="/create-event" className="btn btn-primary btn-sm px-2 sm:px-4">
+                <Link
+                  to="/create-event"
+                  className="btn btn-primary btn-sm px-2 sm:px-4"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 sm:h-5 sm:w-5"
@@ -139,7 +153,10 @@ const Header = () => {
                   </svg>
                   <span className="hidden md:inline">Create Event</span>
                 </Link>
-                <Link to="/dashboard" className="btn btn-ghost btn-sm px-2 sm:px-4">
+                <Link
+                  to="/dashboard"
+                  className="btn btn-ghost btn-sm px-2 sm:px-4"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 sm:h-5 sm:w-5"
@@ -156,7 +173,10 @@ const Header = () => {
                   </svg>
                   <span className="hidden md:inline">Dashboard</span>
                 </Link>
-                <button onClick={handleLogout} className="btn btn-ghost btn-sm px-2 sm:px-4">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-ghost btn-sm px-2 sm:px-4"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 sm:h-5 sm:w-5"
@@ -176,7 +196,10 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/signin" className="btn btn-primary btn-sm px-2 sm:px-4">
+                <Link
+                  to="/signin"
+                  className="btn btn-primary btn-sm px-2 sm:px-4"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 sm:h-5 sm:w-5"
@@ -193,7 +216,10 @@ const Header = () => {
                   </svg>
                   <span className="hidden sm:inline">Sign In</span>
                 </Link>
-                <Link to="/register" className="btn btn-secondary btn-sm px-2 sm:px-4">
+                <Link
+                  to="/register"
+                  className="btn btn-secondary btn-sm px-2 sm:px-4"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
