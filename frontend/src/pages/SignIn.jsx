@@ -11,13 +11,17 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // API URL - change this if backend runs on different port
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    // Clear error when user starts typing
+    // clear error when user types
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -29,14 +33,14 @@ const SignIn = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Email validation
+    // check email
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
     }
 
-    // Password validation
+    // check password
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
@@ -57,31 +61,63 @@ const SignIn = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API call - Replace with your actual API endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // send login request to backend
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-      const mockToken = "mock-jwt-token-" + Date.now();
-      const mockUser = {
-        id: 1,
-        email: formData.email,
-        name: formData.email.split("@")[0],
-      };
+      // check if response is JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error(
+          "Backend server is not responding correctly. Please make sure the backend is running on " +
+            API_BASE_URL
+        );
+      }
 
-      // Store authentication data
-      localStorage.setItem("authToken", mockToken);
-      localStorage.setItem("user", JSON.stringify(mockUser));
+      const data = await response.json();
 
-      // Show success message
+      // check if request failed
+      if (!response.ok) {
+        throw new Error(data.message || "Sign in failed");
+      }
+
+      // save token and user info to localStorage
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // show success message
       alert("Sign in successful!");
 
-      // Redirect to home page
+      // go to home page
       navigate("/");
 
-      // Reload to update header authentication state
+      // reload page to update header
       window.location.reload();
     } catch (error) {
+      console.error("Login error:", error);
+
+      // better error message
+      let errorMessage = "Sign in failed. ";
+      if (error.message.includes("Backend server")) {
+        errorMessage = error.message;
+      } else if (error.message.includes("Failed to fetch")) {
+        errorMessage =
+          "Cannot connect to server. Make sure backend is running on " +
+          API_BASE_URL;
+      } else {
+        errorMessage += error.message || "Please check your credentials.";
+      }
+
       setErrors({
-        submit: "Sign in failed. Please check your credentials and try again.",
+        submit: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -226,7 +262,7 @@ const SignIn = () => {
                       d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>{errors.submit}</span>
+                  <span className="text-sm">{errors.submit}</span>
                 </div>
               )}
 
