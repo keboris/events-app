@@ -38,7 +38,6 @@ const CreateEvent = () => {
       const response = await fetch(`${EVENTS_ENDPOINT}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
@@ -47,7 +46,7 @@ const CreateEvent = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message);
+        throw new Error(data.message || "Error creating event");
       }
       setMessage("✅ Event successfully created!");
       setFormData({
