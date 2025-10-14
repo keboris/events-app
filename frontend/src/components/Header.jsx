@@ -1,5 +1,7 @@
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+const navigate = useNavigate();
 
 const Header = () => {
   const [theme, setTheme] = useState("light");
@@ -24,7 +26,7 @@ const Header = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     setIsAuthenticated(false);
-    window.location.href = "/signin";
+    navigate("/signin");
   };
 
   const toggleTheme = () => {
