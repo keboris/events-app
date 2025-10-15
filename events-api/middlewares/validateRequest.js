@@ -15,7 +15,7 @@ export const validateRequest = (req, res, next) => {
       break;
     case "events":
       schema = eventSchema[method];
-      req.body = req.body || {};
+      console.log(req);
       req.body.organizerId = req.user.id;
       break;
     default:
