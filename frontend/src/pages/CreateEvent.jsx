@@ -35,15 +35,6 @@ const CreateEvent = () => {
         throw new Error("You must be logged in to create an event.");
       }
 
-      const res = await fetch(`${AUTH_ENDPOINT}/profile`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) throw new Error("Something went wrong");
-      const dataUser = await res.json();
-
       const response = await fetch(`${EVENTS_ENDPOINT}`, {
         method: "POST",
         headers: {
@@ -58,7 +49,6 @@ const CreateEvent = () => {
           latitude: formData.latitude,
           longitude: formData.longitude,
           imageUrl: formData.imageUrl,
-          organizerId: dataUser.id,
         }),
       });
 
