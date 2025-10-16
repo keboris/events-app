@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import EventModal from "../components/EventModal";
-import { EVENTS_ENDPOINT } from "../config/api";
+import { AUTH_ENDPOINT, EVENTS_ENDPOINT } from "../config/api";
 
 const Dashboard = () => {
   const navigate = useNavigate();
