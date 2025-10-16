@@ -55,7 +55,15 @@ const SignIn = () => {
       return;
     }
 
+    // Prevent double submission
+    if (isLoading) {
+      return;
+    }
+
     setIsLoading(true);
+    
+    // Clear previous errors
+    setErrors({});
 
     try {
       // send login request to backend
@@ -90,16 +98,14 @@ const SignIn = () => {
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // show success message
-      alert("Sign in successful!");
+      // Dispatch custom event to notify Header and other components
+      window.dispatchEvent(new Event("authChange"));
 
       // go to home page
       navigate("/", { replace: true });
     } catch (error) {
-      console.error("Login error:", error);
-
       // better error message
-      let errorMessage = "Sign in failed. ";
+      let errorMessage;
       if (error.message.includes("Backend server")) {
         errorMessage = error.message;
       } else if (error.message.includes("Failed to fetch")) {
@@ -107,7 +113,7 @@ const SignIn = () => {
           "Cannot connect to server. Make sure backend is running on " +
           API_BASE_URL;
       } else {
-        errorMessage += error.message || "Please check your credentials.";
+        errorMessage = error.message || "Sign in failed. Please check your credentials.";
       }
 
       setErrors({

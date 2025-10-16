@@ -8,50 +8,66 @@ const MainLayout = () => {
   const [events, setEvents] = useState([]);
   const [myEvents, setMyEvents] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${EVENTS_ENDPOINT}`);
-        if (!res.ok) throw new Error("Something went wrong");
-        const data = await res.json();
-        console.log(data);
-        setEvents(data.results);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const fetchAllEvents = async () => {
+    try {
+      const res = await fetch(`${EVENTS_ENDPOINT}`);
+      if (!res.ok) throw new Error("Something went wrong");
+      const data = await res.json();
+      console.log(data);
+      setEvents(data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchAllEvents();
+
+    // Listen for event changes (create, update, delete)
+    window.addEventListener("eventsChange", fetchAllEvents);
+
+    return () => {
+      window.removeEventListener("eventsChange", fetchAllEvents);
+    };
   }, []);
 
-  useEffect(() => {
+  const fetchMyEvents = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) return;
 
-    const fetchDataUser = async () => {
-      try {
-        const response = await fetch(`${AUTH_ENDPOINT}/profile`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) throw new Error("Something went wrong");
-        const dataUser = await response.json();
+    try {
+      const response = await fetch(`${AUTH_ENDPOINT}/profile`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error("Something went wrong");
+      const dataUser = await response.json();
 
-        const res = await fetch(`${EVENTS_ENDPOINT}`);
-        if (!res.ok) throw new Error("Something went wrong");
-        const data = await res.json();
+      const res = await fetch(`${EVENTS_ENDPOINT}`);
+      if (!res.ok) throw new Error("Something went wrong");
+      const data = await res.json();
 
-        setMyEvents(
-          data.results.filter((event) => event.organizerId === dataUser.id)
-        );
-      } catch (error) {
-        console.error(error);
-      }
+      setMyEvents(
+        data.results.filter((event) => event.organizerId === dataUser.id)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyEvents();
+
+    // Listen for event changes and auth changes
+    window.addEventListener("eventsChange", fetchMyEvents);
+    window.addEventListener("authChange", fetchMyEvents);
+
+    return () => {
+      window.removeEventListener("eventsChange", fetchMyEvents);
+      window.removeEventListener("authChange", fetchMyEvents);
     };
-
-    fetchDataUser();
   }, []);
 
   return (

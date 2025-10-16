@@ -91,6 +91,10 @@ const Dashboard = () => {
       // Remove event from state
       setEvents(events.filter((event) => event.id !== eventId));
       setAllEvents(allEvents.filter((event) => event.id !== eventId));
+      
+      // Notify other components about the change
+      window.dispatchEvent(new Event("eventsChange"));
+      
       alert("Event deleted successfully!");
     } catch (err) {
       alert("Failed to delete event: " + err.message);

@@ -130,18 +130,14 @@ const SignUp = () => {
       localStorage.setItem("authToken", loginData.token);
       localStorage.setItem("user", JSON.stringify(loginData.user));
 
-      alert("Account created successfully!");
+      // Dispatch custom event to notify Header and other components
+      window.dispatchEvent(new Event("authChange"));
 
       // redirect to home
-      navigate("/");
-
-      // refresh page to update header
-      window.location.reload();
+      navigate("/", { replace: true });
     } catch (error) {
-      console.error("Signup error:", error);
-
       // better error message
-      let errorMessage = "Sign up failed. ";
+      let errorMessage;
       if (error.message.includes("Backend server")) {
         errorMessage = error.message;
       } else if (error.message.includes("Failed to fetch")) {
@@ -149,7 +145,7 @@ const SignUp = () => {
           "Cannot connect to server. Make sure backend is running on " +
           API_BASE_URL;
       } else {
-        errorMessage += error.message || "Please try again.";
+        errorMessage = error.message || "Sign up failed. Please try again.";
       }
 
       setErrors({

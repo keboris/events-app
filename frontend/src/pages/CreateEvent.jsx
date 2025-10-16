@@ -57,6 +57,10 @@ const CreateEvent = () => {
       if (!response.ok) {
         throw new Error(data.message || "Error creating event");
       }
+      
+      // Notify other components about the new event
+      window.dispatchEvent(new Event("eventsChange"));
+      
       setMessage("✅ Event successfully created!");
       setFormData({
         title: "",

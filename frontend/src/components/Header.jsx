@@ -7,16 +7,33 @@ const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Function to check authentication status
+  const checkAuth = () => {
+    const token =
+      localStorage.getItem("token") || localStorage.getItem("authToken");
+    setIsAuthenticated(!!token);
+  };
+
   useEffect(() => {
     // Get theme from localStorage or default to light
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
 
-    // Check if user is authenticated (check for token in localStorage)
-    const token =
-      localStorage.getItem("token") || localStorage.getItem("authToken");
-    setIsAuthenticated(!!token);
+    // Check initial authentication status
+    checkAuth();
+
+    // Listen for storage changes (works across tabs)
+    window.addEventListener("storage", checkAuth);
+
+    // Listen for custom auth event (works in same tab)
+    window.addEventListener("authChange", checkAuth);
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("authChange", checkAuth);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -25,6 +42,10 @@ const Header = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     setIsAuthenticated(false);
+
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new Event("authChange"));
+
     navigate("/signin");
   };
 
