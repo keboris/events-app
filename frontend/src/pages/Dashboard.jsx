@@ -16,17 +16,39 @@ const Dashboard = () => {
   useEffect(() => {
     // Check if user is authenticated
     const token = localStorage.getItem("authToken");
-    const userData = localStorage.getItem("user");
 
     if (!token) {
       navigate("/signin");
       return;
     }
 
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`${AUTH_ENDPOINT}/profile`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Error fetching user infos");
+        }
+
+        if (data) {
+          setUser(data);
+        }
+      } catch (error) {
+        console.error("Error retrieving profile:", error.message);
+
+        localStorage.removeItem("authToken");
+        navigate("/signin");
+      }
+    };
+
+    fetchUserData();
     // Fetch user's events
     fetchUserEvents(token);
   }, [navigate]);
@@ -54,8 +76,7 @@ const Dashboard = () => {
 
       // Filter events by current user
       const userEvents = data.results.filter(
-        (event) =>
-          event.organizerId === JSON.parse(localStorage.getItem("user")).id
+        (event) => event.organizerId === user.id
       );
 
       setEvents(userEvents);
