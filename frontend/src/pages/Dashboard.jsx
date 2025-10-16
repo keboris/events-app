@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import EventModal from "../components/EventModal";
+import { EVENTS_ENDPOINT } from "../config/api";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -11,9 +12,6 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const dialogRef = useRef(null);
-
-  const API_BASE_URL =
-    import.meta.env.VITE_API_URL || "https://backend-events-api.onrender.com";
 
   useEffect(() => {
     // Check if user is authenticated
@@ -42,7 +40,7 @@ const Dashboard = () => {
   const fetchUserEvents = async (token) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/events`, {
+      const response = await fetch(`${EVENTS_ENDPOINT}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -77,7 +75,7 @@ const Dashboard = () => {
     const token = localStorage.getItem("authToken");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/events/${eventId}`, {
+      const response = await fetch(`${EVENTS_ENDPOINT}/${eventId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -91,10 +89,10 @@ const Dashboard = () => {
       // Remove event from state
       setEvents(events.filter((event) => event.id !== eventId));
       setAllEvents(allEvents.filter((event) => event.id !== eventId));
-      
+
       // Notify other components about the change
       window.dispatchEvent(new Event("eventsChange"));
-      
+
       alert("Event deleted successfully!");
     } catch (err) {
       alert("Failed to delete event: " + err.message);
@@ -261,4 +259,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

@@ -9,7 +9,7 @@ const EventCard = ({ events }) => {
   const dialogRef = useRef(null);
 
   const sortedEvents = [...events].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
   useEffect(() => {

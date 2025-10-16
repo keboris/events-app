@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
+import { AUTH_ENDPOINT } from "../config/api";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -8,10 +9,30 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Function to check authentication status
-  const checkAuth = () => {
-    const token =
-      localStorage.getItem("token") || localStorage.getItem("authToken");
-    setIsAuthenticated(!!token);
+  const checkAuth = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        setIsAuthenticated(false);
+      } else {
+        const response = await fetch(`${AUTH_ENDPOINT}/profile`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          setIsAuthenticated(false);
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("user");
+        } else setIsAuthenticated(true);
+      }
+    } catch (error) {
+      setIsAuthenticated(false);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+    }
   };
 
   useEffect(() => {
@@ -38,7 +59,6 @@ const Header = () => {
 
   const handleLogout = () => {
     // Clear authentication token and user data
-    localStorage.removeItem("token");
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     setIsAuthenticated(false);
