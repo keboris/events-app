@@ -50,7 +50,7 @@ const Dashboard = () => {
 
     fetchUserData();
     // Fetch user's events
-    fetchUserEvents(token);
+    fetchUserEvents(token, user);
   }, [navigate]);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Dashboard = () => {
     }
   }, [selectedEvent]);
 
-  const fetchUserEvents = async (token) => {
+  const fetchUserEvents = async (token, userLog) => {
     try {
       setIsLoading(true);
       const response = await fetch(`${EVENTS_ENDPOINT}`, {
@@ -75,10 +75,10 @@ const Dashboard = () => {
       const data = await response.json();
 
       // Filter events by current user
-      console.log("User : ", user);
+      console.log("User : ", userLog);
 
       const userEvents = data.results.filter(
-        (event) => event.organizerId === user.id
+        (event) => event.organizerId === userLog.id
       );
 
       setEvents(userEvents);
