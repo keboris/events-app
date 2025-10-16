@@ -61,7 +61,7 @@ const SignIn = () => {
     }
 
     setIsLoading(true);
-    
+
     // Clear previous errors
     setErrors({});
 
@@ -102,7 +102,7 @@ const SignIn = () => {
       window.dispatchEvent(new Event("authChange"));
 
       // go to home page
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       // better error message
       let errorMessage;
@@ -113,7 +113,8 @@ const SignIn = () => {
           "Cannot connect to server. Make sure backend is running on " +
           API_BASE_URL;
       } else {
-        errorMessage = error.message || "Sign in failed. Please check your credentials.";
+        errorMessage =
+          error.message || "Sign in failed. Please check your credentials.";
       }
 
       setErrors({
