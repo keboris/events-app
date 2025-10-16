@@ -31,14 +31,14 @@ const Dashboard = () => {
           },
         });
 
-        const data = await response.json();
+        const dataUser = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message || "Error fetching user infos");
+          throw new Error(dataUser.message || "Error fetching user infos");
         }
 
-        if (data) {
-          setUser(data);
+        if (dataUser) {
+          setUser(dataUser);
         }
       } catch (error) {
         console.error("Error retrieving profile:", error.message);
@@ -75,6 +75,8 @@ const Dashboard = () => {
       const data = await response.json();
 
       // Filter events by current user
+      console.log("User : ", user);
+
       const userEvents = data.results.filter(
         (event) => event.organizerId === user.id
       );
