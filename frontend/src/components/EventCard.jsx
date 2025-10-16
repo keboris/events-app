@@ -37,7 +37,7 @@ const EventCard = ({ events }) => {
             <div
               key={event.id}
               onClick={() => openModal(event)}
-              className="bg-white cursor-pointer rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform"
+              className="bg-base-100 cursor-pointer rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-transform"
             >
               <img
                 src={event.imageUrl}
@@ -46,10 +46,10 @@ const EventCard = ({ events }) => {
               />
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                <p className="text-gray-600 mb-2">
+                <p className="text-base-content/70 mb-2">
                   {new Date(event.date).toLocaleDateString()}
                 </p>
-                <p className="text-sm text-gray-500">{event.location}</p>
+                <p className="text-sm text-base-content/60">{event.location}</p>
                 <button
                   className="mt-4 btn btn-outline btn-primary w-full"
                   onClick={() => openModal(event)}

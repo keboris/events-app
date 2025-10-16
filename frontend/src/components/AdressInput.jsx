@@ -56,11 +56,11 @@ const AddressInput = ({ onSelect }) => {
         className="input input-bordered w-full"
       />
       {suggestions.length > 0 && (
-        <ul className="absolute z-10 bg-white border w-full max-h-48 overflow-auto">
+        <ul className="absolute z-10 bg-base-100 border border-base-300 w-full max-h-48 overflow-auto rounded-lg shadow-lg">
           {suggestions.map((place) => (
             <li
               key={place.place_id}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
+              className="p-2 hover:bg-base-200 cursor-pointer"
               onClick={() => handleSelect(place)}
             >
               {place.display_name}

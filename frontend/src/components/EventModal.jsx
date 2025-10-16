@@ -195,13 +195,13 @@ const EventModal = ({ events, dialogRef, selectedEvent, closeModal }) => {
                   <h2 className="text-2xl font-bold mb-4">
                     {currentEvent.title}
                   </h2>
-                  <p className="text-gray-600 mb-2">
+                  <p className="text-base-content/70 mb-2">
                     📅 {new Date(currentEvent.date).toLocaleDateString()}
                   </p>
-                  <p className="text-gray-600 mb-2">
+                  <p className="text-base-content/70 mb-2">
                     📍 {currentEvent.location}
                   </p>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-base-content/70 mb-4">
                     📖 {currentEvent.description}
                   </p>
 

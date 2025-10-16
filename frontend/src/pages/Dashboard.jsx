@@ -1,12 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
+import EventModal from "../components/EventModal";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const dialogRef = useRef(null);
 
   const API_BASE_URL =
     import.meta.env.VITE_API_URL || "https://backend-events-api.onrender.com";
@@ -28,6 +32,12 @@ const Dashboard = () => {
     // Fetch user's events
     fetchUserEvents(token);
   }, [navigate]);
+
+  useEffect(() => {
+    if (selectedEvent && dialogRef.current) {
+      dialogRef.current.showModal();
+    }
+  }, [selectedEvent]);
 
   const fetchUserEvents = async (token) => {
     try {
@@ -51,6 +61,7 @@ const Dashboard = () => {
       );
 
       setEvents(userEvents);
+      setAllEvents(data.results);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -79,10 +90,22 @@ const Dashboard = () => {
 
       // Remove event from state
       setEvents(events.filter((event) => event.id !== eventId));
+      setAllEvents(allEvents.filter((event) => event.id !== eventId));
       alert("Event deleted successfully!");
     } catch (err) {
       alert("Failed to delete event: " + err.message);
     }
+  };
+
+  const openModal = (event) => {
+    setSelectedEvent(event);
+  };
+
+  const closeModal = () => {
+    if (dialogRef.current) {
+      dialogRef.current.close();
+    }
+    setSelectedEvent(null);
   };
 
   if (isLoading) {
@@ -170,8 +193,8 @@ const Dashboard = () => {
                 </p>
                 <p className="text-sm line-clamp-2">{event.description}</p>
                 <div className="card-actions justify-end mt-4">
-                  <Link
-                    to={`/events/${event.id}`}
+                  <button
+                    onClick={() => openModal(event)}
                     className="btn btn-sm btn-ghost"
                   >
                     <svg
@@ -195,7 +218,7 @@ const Dashboard = () => {
                       />
                     </svg>
                     View
-                  </Link>
+                  </button>
                   <button
                     onClick={() => handleDelete(event.id)}
                     className="btn btn-sm btn-error"
@@ -222,8 +245,16 @@ const Dashboard = () => {
           ))}
         </div>
       )}
+
+      <EventModal
+        events={allEvents}
+        dialogRef={dialogRef}
+        selectedEvent={selectedEvent}
+        closeModal={closeModal}
+      />
     </div>
   );
 };
 
 export default Dashboard;
+
