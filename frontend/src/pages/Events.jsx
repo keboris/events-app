@@ -1,8 +1,37 @@
-import { useOutletContext } from "react-router";
 import EventCard from "../components/EventCard";
+import { EVENTS_ENDPOINT } from "../config/api";
+import { useEffect, useState } from "react";
 
 const Events = () => {
-  const { events, isLoading } = useOutletContext();
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAllEvents = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch(`${EVENTS_ENDPOINT}`);
+        if (!res.ok) throw new Error("Something went wrong");
+        const data = await res.json();
+
+        console.log(data);
+        setEvents(data.results);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllEvents();
+
+    // Listen for event changes (create, update, delete)
+    window.addEventListener("eventsChange", fetchAllEvents);
+
+    return () => {
+      window.removeEventListener("eventsChange", fetchAllEvents);
+    };
+  }, []);
 
   if (isLoading) {
     return (
