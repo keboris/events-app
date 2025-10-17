@@ -2,7 +2,7 @@ import { useOutletContext } from "react-router";
 import EventCard from "../components/EventCard";
 
 const Events = () => {
-  const { events } = useOutletContext();
+  const { events, isLoading } = useOutletContext();
 
   return (
     <>
@@ -12,7 +12,7 @@ const Events = () => {
         <h2 className="text-2xl font-bold mb-6 text-gray-800">
           🎉 Upcoming Events
         </h2>
-        <EventCard events={events} />
+        <EventCard events={events} isLoading={isLoading} />
       </section>
     </>
   );

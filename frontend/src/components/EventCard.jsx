@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import EventModal from "./EventModal";
 import { useEffect, useRef, useState } from "react";
 
-const EventCard = ({ events }) => {
+const EventCard = ({ events, isLoading }) => {
   const navigate = useNavigate();
 
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -28,6 +28,14 @@ const EventCard = ({ events }) => {
     }
     setSelectedEvent(null);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <>
