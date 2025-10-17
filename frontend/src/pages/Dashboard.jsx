@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import EventModal from "../components/EventModal";
-import { AUTH_ENDPOINT, EVENTS_ENDPOINT } from "../config/api";
+import { EVENTS_ENDPOINT } from "../config/api";
 import { useAuthUser } from "../hooks/useUserAuth";
 import { useUserEvents } from "../hooks/useUserEvents";
 
@@ -9,8 +9,14 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const user = useAuthUser();
-  const { userEvents, allEvents, isLoading, error, setEvents, setAllEvents } =
-    useUserEvents(user);
+  const {
+    userEvents,
+    allEvents,
+    isLoading,
+    error,
+    setUserEvents,
+    setAllEvents,
+  } = useUserEvents(user);
 
   const [selectedEvent, setSelectedEvent] = useState(null);
   const dialogRef = useRef(null);
@@ -41,7 +47,7 @@ const Dashboard = () => {
       }
 
       // Remove event from state
-      setEvents(userEvents.filter((event) => event.id !== eventId));
+      setUserEvents(userEvents.filter((event) => event.id !== eventId));
       setAllEvents(allEvents.filter((event) => event.id !== eventId));
 
       // Notify other components about the change
