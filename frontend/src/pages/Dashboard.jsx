@@ -39,6 +39,9 @@ const Dashboard = () => {
 
         if (dataUser) {
           setUser(dataUser);
+          // Fetch user's events
+          console.log("User ici :", user);
+          fetchUserEvents(token, user);
         }
       } catch (error) {
         console.error("Error retrieving profile:", error.message);
@@ -49,9 +52,7 @@ const Dashboard = () => {
     };
 
     fetchUserData();
-    // Fetch user's events
-    fetchUserEvents(token, user);
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (selectedEvent && dialogRef.current) {
