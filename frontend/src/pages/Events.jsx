@@ -21,7 +21,7 @@ const Events = () => {
       <title>Upcoming Events | Event App</title>
 
       <section className="max-w-6xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        <h2 className="text-2xl font-bold mb-6 text-base-content/70">
           🎉 Upcoming Events
         </h2>
         <EventCard events={events} />
