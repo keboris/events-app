@@ -2,99 +2,24 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import EventModal from "../components/EventModal";
 import { AUTH_ENDPOINT, EVENTS_ENDPOINT } from "../config/api";
+import { useAuthUser } from "../hooks/useUserAuth";
+import { useUserEvents } from "../hooks/useUserEvents";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [events, setEvents] = useState([]);
-  const [allEvents, setAllEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+
+  const user = useAuthUser();
+  const { userEvents, allEvents, isLoading, error, setEvents, setAllEvents } =
+    useUserEvents(user);
+
   const [selectedEvent, setSelectedEvent] = useState(null);
   const dialogRef = useRef(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      navigate("/signin");
-      return;
-    }
-
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`${AUTH_ENDPOINT}/profile`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const dataUser = await response.json();
-
-        if (!response.ok || dataUser.message) {
-          throw new Error(dataUser.message || "Unauthorized access");
-        }
-
-        if (dataUser) {
-          setUser(dataUser);
-        }
-      } catch (error) {
-        console.error("Error retrieving profile:", error.message);
-        localStorage.removeItem("authToken");
-        navigate("/signin");
-      }
-    };
-
-    fetchUserData();
-  }, [navigate]);
-
-  useEffect(() => {
-    if (!user) return;
-
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      console.log("User ici : ", user);
-      fetchUserEvents(token, user);
-    }
-  }, [user]);
 
   useEffect(() => {
     if (selectedEvent && dialogRef.current) {
       dialogRef.current.showModal();
     }
   }, [selectedEvent]);
-
-  const fetchUserEvents = async (token, userLog) => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`${EVENTS_ENDPOINT}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch events");
-      }
-
-      const data = await response.json();
-
-      // Filter events by current user
-      console.log("User : ", userLog);
-
-      const userEvents = data.results.filter(
-        (event) => event.organizerId === userLog.id
-      );
-
-      setEvents(userEvents);
-      setAllEvents(data.results);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleDelete = async (eventId) => {
     if (!confirm("Are you sure you want to delete this event?")) {
@@ -116,7 +41,7 @@ const Dashboard = () => {
       }
 
       // Remove event from state
-      setEvents(events.filter((event) => event.id !== eventId));
+      setEvents(userEvents.filter((event) => event.id !== eventId));
       setAllEvents(allEvents.filter((event) => event.id !== eventId));
 
       // Notify other components about the change
@@ -181,7 +106,7 @@ const Dashboard = () => {
         <h2 className="text-2xl font-semibold">Your Events</h2>
       </div>
 
-      {events.length === 0 ? (
+      {userEvents.length === 0 ? (
         <div className="text-center flex justify-center gap-4 py-12">
           <div className="p-4">
             <svg
@@ -231,7 +156,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {events.map((event) => (
+          {userEvents.map((event) => (
             <div key={event.id} className="card bg-base-100 shadow-xl">
               <figure>
                 <img
@@ -304,7 +229,7 @@ const Dashboard = () => {
       )}
 
       <EventModal
-        events={allEvents}
+        events={userEvents}
         dialogRef={dialogRef}
         selectedEvent={selectedEvent}
         closeModal={closeModal}

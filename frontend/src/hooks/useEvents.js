@@ -4,6 +4,7 @@ import { EVENTS_ENDPOINT } from "../config/api";
 export const useEvents = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchAllEvents = async () => {
     try {
@@ -29,5 +30,5 @@ export const useEvents = () => {
     };
   }, []);
 
-  return { events, isLoading };
+  return { events, isLoading, error };
 };
