@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import EventModal from "../components/EventModal";
 import { EVENTS_ENDPOINT } from "../config/api";
 import { useAuthUser } from "../hooks/useUserAuth";
 import { useUserEvents } from "../hooks/useUserEvents";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   const user = useAuthUser();
   const {
     userEvents,
@@ -51,7 +49,7 @@ const Dashboard = () => {
       setAllEvents(allEvents.filter((event) => event.id !== eventId));
 
       // Notify other components about the change
-      window.dispatchEvent(new Event("eventsChange"));
+      //window.dispatchEvent(new Event("eventsChange"));
 
       alert("Event deleted successfully!");
     } catch (err) {
