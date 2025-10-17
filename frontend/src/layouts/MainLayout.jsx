@@ -7,9 +7,11 @@ import { AUTH_ENDPOINT, EVENTS_ENDPOINT } from "../config/api";
 const MainLayout = () => {
   const [events, setEvents] = useState([]);
   const [myEvents, setMyEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchAllEvents = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch(`${EVENTS_ENDPOINT}`);
       if (!res.ok) throw new Error("Something went wrong");
       const data = await res.json();
@@ -17,6 +19,8 @@ const MainLayout = () => {
       setEvents(data.results);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,6 +40,7 @@ const MainLayout = () => {
     if (!token) return;
 
     try {
+      setIsLoading(true);
       const response = await fetch(`${AUTH_ENDPOINT}/profile`, {
         method: "GET",
         headers: {
@@ -54,6 +59,8 @@ const MainLayout = () => {
       );
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,7 +83,7 @@ const MainLayout = () => {
         <Header />
       </header>
       <main className="min-h-screen">
-        <Outlet context={{ events, myEvents }} />
+        <Outlet context={{ events, myEvents, isLoading }} />
       </main>
       <Footer />
     </>
