@@ -3,7 +3,19 @@ import EventCard from "../components/EventCard";
 import Hero from "../components/Hero";
 
 const Home = () => {
-  const { events } = useOutletContext();
+  const { events, isLoading } = useOutletContext();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (!events.length)
+    return <p className="text-center py-10">No upcoming events.</p>;
+
   return (
     <>
       <title>Events API</title>
