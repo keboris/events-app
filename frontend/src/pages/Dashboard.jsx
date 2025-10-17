@@ -14,7 +14,6 @@ const Dashboard = () => {
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    // Check if user is authenticated
     const token = localStorage.getItem("authToken");
 
     if (!token) {
@@ -33,8 +32,8 @@ const Dashboard = () => {
 
         const dataUser = await response.json();
 
-        if (!response.ok) {
-          throw new Error(dataUser.message || "Error fetching user infos");
+        if (!response.ok || dataUser.message) {
+          throw new Error(dataUser.message || "Unauthorized access");
         }
 
         if (dataUser) {
@@ -42,14 +41,13 @@ const Dashboard = () => {
         }
       } catch (error) {
         console.error("Error retrieving profile:", error.message);
-
         localStorage.removeItem("authToken");
         navigate("/signin");
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (!user) return;
