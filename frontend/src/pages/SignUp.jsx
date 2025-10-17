@@ -128,7 +128,6 @@ const SignUp = () => {
 
       // save token and user data
       localStorage.setItem("authToken", loginData.token);
-      localStorage.setItem("user", JSON.stringify(loginData.user));
 
       // Dispatch custom event to notify Header and other components
       window.dispatchEvent(new Event("authChange"));
