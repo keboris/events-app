@@ -184,26 +184,49 @@ const Dashboard = () => {
       </div>
 
       {events.length === 0 ? (
-        <div className="text-center py-12">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-24 w-24 mx-auto text-base-content/20 mb-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          <h3 className="text-xl font-semibold mb-2">No Events</h3>
-          <p className="text-base-content/60">
-            You haven't created any events yet. Use the "Create Event" button in
-            the navigation bar to add your first event.
-          </p>
+        <div className="text-center flex justify-between gap-4 py-12">
+          <div className="p-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-24 w-24 mx-auto text-base-content/20 mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <h3 className="text-xl font-semibold mb-2">No Events</h3>
+            <p className="text-base-content/60">
+              You haven't created any events yet.
+            </p>
+          </div>
+
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-24 w-24 mx-auto text-base-content/20 mb-4"
+              viewBox="0 0 24 24"
+              xml:space="preserve"
+            >
+              <path
+                d="m26.516 21 3-3H30v.93L27.93 21zM21 15.93l3-3V12h-.484L21 14.516zm3 7.586-3 3V27h.93L24 24.93zM17.516 18 15 20.516V21h.93l3-3zM21 22.516v1.414L26.93 18h-1.414zM18.516 21h1.414L24 16.93v-1.414z"
+                style="fill:#ffc5bb"
+              />
+              <path
+                d="M30 17h-5v-5a1 1 0 0 0-1-1h-1V2a1 1 0 0 0-1-1H8a1 1 0 0 0-.781.375l-4 5A1 1 0 0 0 3 7v23a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2h1a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1M8 2v5H4zm14 28H4V8h4a1 1 0 0 0 1-1V2h13v9h-1a1 1 0 0 0-1 1v5h-5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h1zm8-9h-6v6h-3v-6h-6v-3h6v-6h3v6h6z"
+                style="fill:#265aa5"
+              />
+            </svg>
+            <h3 className="text-xl font-semibold mb-2">Create Event</h3>
+            <p className="text-base-content/60">
+              Use the "Create Event" button to add your first event.
+            </p>
+          </div>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
