@@ -96,12 +96,11 @@ const SignIn = () => {
 
       // save token and user info to localStorage
       localStorage.setItem("authToken", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
 
       // Dispatch custom event to notify Header and other components
       window.dispatchEvent(new Event("authChange"));
 
-      // go to home page
+      // go to Dashboard
       navigate("/dashboard");
     } catch (error) {
       // better error message

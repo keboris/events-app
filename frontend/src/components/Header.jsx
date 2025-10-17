@@ -25,13 +25,11 @@ const Header = () => {
         if (!response.ok) {
           setIsAuthenticated(false);
           localStorage.removeItem("authToken");
-          localStorage.removeItem("user");
         } else setIsAuthenticated(true);
       }
     } catch (error) {
       setIsAuthenticated(false);
       localStorage.removeItem("authToken");
-      localStorage.removeItem("user");
     }
   };
 
@@ -60,7 +58,6 @@ const Header = () => {
   const handleLogout = () => {
     // Clear authentication token and user data
     localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
     setIsAuthenticated(false);
 
     // Dispatch custom event to notify other components
