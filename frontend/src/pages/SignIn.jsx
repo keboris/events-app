@@ -102,7 +102,7 @@ const SignIn = () => {
       window.dispatchEvent(new Event("authChange"));
 
       // go to home page
-      navigate("/dashboard", { replace: true });
+      navigate("/dashboard");
     } catch (error) {
       // better error message
       let errorMessage;
