@@ -133,8 +133,8 @@ const SignUp = () => {
       // Dispatch custom event to notify Header and other components
       window.dispatchEvent(new Event("authChange"));
 
-      // redirect to home
-      navigate("/", { replace: true });
+      // redirect to Dashboard
+      navigate("/dashboard");
     } catch (error) {
       // better error message
       let errorMessage;
