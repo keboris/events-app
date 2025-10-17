@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import EventModal from "../components/EventModal";
 import { EVENTS_ENDPOINT } from "../config/api";
 import { useAuthUser } from "../hooks/useUserAuth";
@@ -18,6 +18,7 @@ const Dashboard = () => {
 
   const [selectedEvent, setSelectedEvent] = useState(null);
   const dialogRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedEvent && dialogRef.current) {
@@ -179,6 +180,27 @@ const Dashboard = () => {
                 </p>
                 <p className="text-sm line-clamp-2">{event.description}</p>
                 <div className="card-actions justify-end mt-4">
+                  <button
+                    onClick={() => navigate(`/editEvent/${event.id}`)}
+                    className="btn btn-sm btn-success"
+                  >
+                    <svg
+                      className="icon flat-color h-4 w-4"
+                      viewBox="0 0 24 24"
+                      data-name="Flat Color"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21 22H3a1 1 0 0 1 0-2h18a1 1 0 0 1 0 2"
+                        style={{ fill: "#2ca9bc" }}
+                      />
+                      <path
+                        d="M20.71 3.29a2.93 2.93 0 0 0-2.2-.84 3.25 3.25 0 0 0-2.17 1l-8.88 8.84a1.2 1.2 0 0 0-.25.43l-1.21 4A1 1 0 0 0 7 18a.9.9 0 0 0 .28 0l4-1.17a1.2 1.2 0 0 0 .43-.25l8.87-8.88a3.25 3.25 0 0 0 1-2.17 2.9 2.9 0 0 0-.87-2.24"
+                        style={{ fill: "#000" }}
+                      />
+                    </svg>
+                    Edit
+                  </button>
                   <button
                     onClick={() => openModal(event)}
                     className="btn btn-sm btn-ghost"

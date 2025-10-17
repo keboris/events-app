@@ -1,9 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const AddressInput = ({ onSelect }) => {
+const AddressInput = ({ locationValue = "", onSelect }) => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const debounceRef = useRef(null);
+
+  useEffect(() => {
+    setQuery(locationValue);
+  }, [locationValue]);
 
   const handleChange = async (e) => {
     const value = e.target.value;
@@ -50,6 +54,7 @@ const AddressInput = ({ onSelect }) => {
     <div className="relative">
       <input
         type="text"
+        name="eventaddress"
         value={query}
         onChange={handleChange}
         placeholder="Event address"

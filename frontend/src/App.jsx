@@ -22,6 +22,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/my-events" element={<UserEvents />} />
           <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/editEvent/:idToEdit" element={<CreateEvent />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
